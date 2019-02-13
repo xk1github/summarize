@@ -1,0 +1,7 @@
+本程序的作用：将文本代码转化成token库，识别代码中单词和符号是否出错
+要运行本程序的准备工作：
+1.java的虚拟环境
+2.安装jxl.jar包：用来保存二维数组
+3.实现WordRealize的两个方法：data传入一个自动机表格或自动机二维数组，name传入自动机的属性名
+4.在WordRealize中Next方法传入所需分析的代码
+5.运行WordRealize的main方法
