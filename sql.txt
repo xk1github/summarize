@@ -1,5 +1,5 @@
 创建表：
-    create table table_name()
+    create table persons(id_p int, lastName varchar(255))
     
 select:
     select value_name from table_name
@@ -62,6 +62,94 @@ into:
     制作person表的备份复件：select * into perosn_backup from person
     in字句可用于向另一个数据库中拷贝表：select * into person in 'backup.mdb' from perosn
     拷贝某些域：select LastName,FirstName into Persons_backup from perosn
+    
+database:
+    create database my_db
+    
+sql约束：
+        not null        不为空
+        unique          唯一
+        primary key     主键:
+                primary key(id_p)
+                id_p int primary key
+                constraint pk_PersonID primary key(Id_p,LastName)
+                alter table person add constraint pk_PersonId key(id_p,LastName)
+                alter table person drop primary key
+        foreign key     外键:
+                foreign key(id_p) references person(id_p)
+                id_p int foreign key references Person(id_p)
+                constraint fk_perOrders foreign key(id_p) references person(id_p)
+                alter table orders add foregin key(id_p) references persons(id_p)
+                alter table orders add constraint fk_perOrders foregin key(id_p) references person(id_p) 
+                alter table orders drop foregin key fk_perOrders
+                alter table orders drop constraint fk_perOrders
+        check用于限制列中值得范围：
+                check(id_p>0)
+                constraint chk_Person check(id_p>0 and City='Sandnes')
+                alter table person add check(id_p>0)
+                alter table person add constraint chk_person check(id_p>0 and city='Sandnes')
+                alter table person drop constraint chk_person
+                alter table person drop check chk_person
+        default默认值：
+                city varchar(255) default 'Sandnes'
+                OrderDate date Default getDate()
+
+index:
+        create index personIndex on person(latstName desc)
+
+drop:
+        drop index index_name on table_name
+        drop table 表名称
+        drop database 数据库名称
+       
+alter:
+        alter table person add birthday date
+        alter table person alter column birthday year
+        alter table person drop column birthday
+
+auto increment自动增长:
+        p_id int not null auto_increment
+
+date:
+        now()           当前日期和时间
+        curdate()       日期
+        curtime()       时间
+        date()          提取日期或日期/时间表达式的日期部分
+        extract()       日期/时间按的单独部分
+        date_add()      给日期添加指定的时间间隔
+        date_sub()      日期减去指定的时间间隔
+        dateDiff()      返回两个日期之间的天数
+        date_format()   用不同的格式显示日期/时间
+
+null:
+        select * from person where address is null
+        select * from perosn where address is not null
+        
+函数：
+        avg()平均数
+        count()指定列的值的数目
+        first()指定字段中第一个记录的值
+        last()指定字段中最后一个记录的值
+        max()最大值
+        min()最小值
+        sum()求和
+        ucase()转换为大写
+        lcase()转换为小写
+        len()文本字段中值的长度
+        now()当前的日期和时间
+        format():对字段的显示进行格式化
+                select format(now(),'YYYY-MM-DD') as perDate from products
+
+group by分类:
+        select Customer,sum(orderPerice) from orders group by customer
+
+having增加having字句原因是，where无法与合计函数一起使用:
+        select Customer,sum(OrderPrice) from Orders group by Customer having sum(OrderPrice)<2000
+        
+        
+        
+        
+        
     
 
      
