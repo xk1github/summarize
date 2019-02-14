@@ -1,0 +1,69 @@
+创建表：
+    create table table_name()
+    
+select:
+    select value_name from table_name
+    
+distinct返回唯一不同的值：
+    select distinct value_name from table_name
+    
+where:
+    select 列名称 from 表名称 where 【条件语句】
+    
+and,or:可在where子语句中把两个或多个条件结合起来
+    select * from Persons where FirstName='Thomas' and LastName='Carter'
+
+order by默认按照升序排序，降序可加desc:
+    select Company,OrderNumber from Orders order by Company
+    select Company, OrderNumber from Orders order by Company desc
+    
+insert:
+    insert into 表名称 value(值1,值2,...)
+    insert into 表名称（列1,列2,...) value(值1,值2,...)
+
+update:
+    update 表名称 set 列名称=新值 where 列名称=某值
+    update Person set FirstName='fred' where LastName='wilson'
+    
+delete:
+    delete from 表名称 where 列名称=值
+    delete from Person where LastName='wilson'
+ 
+like:
+    select column_name(s) from table_name where colum_name like pattern
+    select * from Person where City like 'N%'
+    % 替代一个或多个字符
+    - 仅替代一个字符
+    [charlist] 字符中任何单一字符
+    [^charlist]或[!charlist] 不在字符的任何单一字符
+    
+in其中:
+    select * from Person where LastName in ('Adams','Carter')
+   
+between两者之间包括第一个:
+    select * from Person where LastName between 'Adams' and 'Carter'
+
+as:
+    select LastName as Family,FirstName as Name
+    
+join联合语句：
+    inner join内连接或join返回所有结果:会返回至少一个匹配的行
+        select * from Person inner join Orders on Person_id=Orders_id order by Person.LastName
+    left join左连接：会返回左表中所有的行，即使右表中没有匹配的行
+    right join右连接：会返回右表中所有的行，即使左表中没有匹配的行
+    full join全连接：会返回左表和右表中所有的行
+    
+union合并：union内部的select语句必须拥有相同数量的列，列也必须拥有相同的数据类型
+    select e_name from employees_china
+    union
+    select e_name from employees_usa
+    
+into:
+    制作person表的备份复件：select * into perosn_backup from person
+    in字句可用于向另一个数据库中拷贝表：select * into person in 'backup.mdb' from perosn
+    拷贝某些域：select LastName,FirstName into Persons_backup from perosn
+    
+
+     
+    
+    
