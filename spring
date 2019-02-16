@@ -1,0 +1,108 @@
+context:
+自动扫描包（默认设置）：
+    <context:component-scan base-package="com.xxx.text">
+自动扫描包（含过滤器）：
+    <context:component-scan base-package="cn.xxx.text">
+        <!--根据注释（包含）-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+        <!--根据aspectJ语法，一般用于AOP-->
+        <context:include-filter type="aspectj" expression=""/>
+        <!--根据正则表达式（排除）-->
+        <context:exclude-filter type="regex" expression=""/>
+    </context:component-scan>
+    支持注解：
+    <context:annotation-config/>
+
+AOP:
+aspect 方面
+joninpoint 切面
+advice 通知
+pointcut 切入点
+introduction 引入
+target 目标
+proxy 代理
+weaving  编织
+    <bean id="myadvice" class="cn.text.MyAdvice"/>
+    <bean id="targetclass" class="cn.text.aop.TargetClass"/>
+    <aop:config>
+        <aop:pointcut expression="execution(* cn.test.aop.*.*(..))" id="pt"/>
+        <aop:aspect ref="myadvice">
+            <aop:before method="beforeAdvice" pointcut-ref="pt"/>
+            <aop:after method="afterAdvice" pointcut-ref="pt"/>
+            <aop:around method="aroundAdvice" pointcut=ref="pt"/>
+        </aop:aspect>
+    </aop:config>
+使用注解的方式实现AOP:
+@Compont
+@Aspect
+public class MyAdvice{
+    拦截cn.test.spring.aop包下所有类的所有方法
+    final String exp="execution(* cn.text.spring.aop.*.*(..))";
+    @Before(exp)
+    public void beforeAdvice(){
+        System.out.println("before advice");
+    }
+    @After(exp)
+    public void afterAdvice(){
+        System.out.println("after advice");
+    }
+    @AfterReturning(exp)
+    public void afterRetAdvice(){
+        System.out.println("after return advice");
+    }
+    @Around(exp)
+    public void aroundAdvice(ProceedingJoinPoint jp){
+        System.out.println("start arround advice");
+        try{
+            jp.proceed();
+        }catch(Throwable e){
+            e.printStackTrace();
+        }
+        System.out.println("after arround advice");
+    }
+}
+
+MVC:
+<servlet>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servelt-class>
+    <init-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/spring-servlet.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+</servelt-mapping>
+spring Web配置
+<listener>
+    <listenerclass>org.springframework.web.context.ContextLoaderLIstener</listener-class>
+</listener>
+指定spring Bean的配置文件所在目录，默认配置在WEB-INF目录下
+<context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:config/applicationContext.xml</param-value>
+</context-param>
+
+spring配置文件的相关配置：
+<mvc:annotation-driven/>
+<context:component-scan base-package="cn.spring.test"/>
+如果当前请求为"/"时，则转发"index"视图
+<mvc:view-controller path="/" view-name="froward:index"/>
+静态资源映射
+<mvc:resources mapping="/js/**" location="/WEB-INF/js/">
+<mvc:resources mapping="/css/**" location="/WEB-INF/css/" />
+<mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/" />
+<mvc:resources mapping="images/**" location="/WEB-INF/images/" />
+当上面要访问的静态资源不存在与上面的配置中，则根据此配置来访问
+<mvc:default-servlet-handleer />
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <property name="maxUploadSize><value>xxx<value></property>
+    <property name="defaultEncoding"><value>UTF-8</value></property>
+</bean>
+<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/jsps/"/>
+    <property name="suffix" value=".jsp"/>
+</bean>
