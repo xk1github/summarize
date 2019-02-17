@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+import requests as re
+import pandas as pd
+import selenium as se
+from selenium import webdriver as wd
+import time
+
+
+driver = wd.Chrome()
+
+
+driver.get('https://music.163.com/#/discover/toplist?id=3778678')
+driver.switch_to_frame('g_iframe')
+
+
+table = driver.find_element_by_tag_name('tbody')
+trs = table.find_elements_by_tag_name('tr')
+name = []
+for tr in trs:
+    line = []
+    span = tr.find_element_by_class_name('txt')
+    a = span.find_element_by_tag_name('a')
+    a_href = a.get_attribute("href")
+    b = a.find_element_by_tag_name('b')
+    b_title = b.get_attribute('title')
+    line.append(a_href)
+    line.append(b_title)
+    name.append(line)
+
+
+datas = []
+for line in name:
+    data = []
+    driver.get(line[0])
+    driver.switch_to_frame('g_iframe')
+    says = driver.find_elements_by_class_name('cntwrap')
+    for say in says:
+        dat = []
+        cnt = say.find_element_by_class_name('f-brk')
+        a_name = cnt.find_element_by_tag_name('a').text
+        a_take = cnt.text
+        rp = say.find_element_by_class_name('rp')
+        a_time = rp.find_element_by_class_name('time').text
+        a_zan = rp.find_element_by_tag_name('a').text
+        dat.append(line[0])
+        dat.append(line[1])
+        dat.append(a_name)
+        dat.append(a_take)
+        dat.append(a_time)
+        dat.append(a_zan)
+        data.append(dat)
+    data = pd.DataFrame(data)
+    if line==name[0]:
+        datas = data
+    else:
+        datas = pd.concat([datas,data])
+    
+
+datas.to_csv('F:/work/resource/data/html/music.csv', encoding='utf_8_sig')
+
+

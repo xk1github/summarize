@@ -1,0 +1,77 @@
+array.push();
+array.unshift();
+array.splice();
+
+创建对象
+var person={
+	name:'dongjc',
+	work:function(){console.log('write coding')}
+}
+function Person(){
+	this.name="dongjc";
+	var worker='coding';
+	this.age=32;
+	this.Introduce=function(){
+		alert("My name is"+this.name+".I'm"+this.age);
+	}
+	alert("My name is"+this.name+"I'm"+this.age);
+}
+var person=new Object();
+person.name="dongjc";
+person.age=32;
+person.Introduce=function(){
+alert("My name is"+this.name+"I'm"+this.age);
+}
+
+typeof检测类型
+typeof 1
+constructor检测类型
+o.constructor==object
+
+document.cookie
+
+事件绑定
+btn.onclick=function(event){console.log(event.clientX)};
+onXXX="JavaScript Code";
+elementObject.onXXX=function(){}
+elementObject.addEventListener(eventName,handle,useCapture);
+elementObject.attachEvent(eventName,handle);
+
+
+
+鼠标事件
+click：单击
+dblclick：双击
+mousedown：鼠标按下
+mouseup：鼠标抬起
+mouseover：鼠标悬浮
+mouseout：鼠标离开
+mousemove：鼠标移动
+mouseenter：鼠标进入
+mouseleave：鼠标离开
+键盘事件
+keydown：按键按下
+keyup：按键抬起
+keypress：按键按下抬起
+HTML事件
+load：文档加载完成
+
+function message()
+{
+try
+  {
+  adddlert("Welcome guest!");
+  }
+catch(err)
+  {
+  txt="There was an error on this page.\n\n";
+  txt+="Error description: " + err.message + "\n\n";
+  txt+="Click OK to continue.\n\n";
+  alert(txt);
+  }
+}
+select：被选中的时候
+change：内容被改变
+focus：得到光标
+resize：窗口尺寸变化
+scroll：滚动条移动

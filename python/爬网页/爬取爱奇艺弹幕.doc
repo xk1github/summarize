@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+# coding: utf-8
+import requests as re
+import pandas as pd
+import selenium as se
+from selenium import webdriver as wd
+import time
+
+driver = wd.Chrome()
+
+def getContext():
+    context =[]
+    for i in range(10):
+        video = driver.find_element_by_class_name('iqp-player-pc')
+        video.click()
+        strs = driver.find_elements_by_class_name('danmaku-item')
+        for line in strs:
+            span = line.find_element_by_tag_name('span')
+            txt = span.text
+            print(txt)
+            if txt != '':
+                context.append(txt)
+        btn = driver.find_element_by_class_name('iqp-btn-pause')
+        btn.click()
+        time.sleep(15)
+    return context
+
+def getData(url,title):
+    driver.get(url)
+    time.sleep(120)
+    context = getContext()
+    titles = []
+    urls = []
+    for i in range(len(context)):
+        titles.append(title)
+        urls.append(url)
+    data = pd.DataFrame({'url':urls,'title':titles,'context':context})
+    return data
+
+url="https://www.iqiyi.com/v_19rqzi1f7s.html"
+title='海贼王'
+data =getData(url,title)
+data.head(len(data))
+
+
+data.to_csv('F:/work/resource/data/html/'+'海贼王.csv')
+
+
+strs = ['https://www.iqiyi.com/v_19rr7p4m3k.html',
+        'https://www.iqiyi.com/v_19rrk78dhk.html',
+        'https://www.iqiyi.com/v_19rrk6v0c4.html']
+names = ['你的名字','追逐繁星的孩子','秒速5厘米']
+
+
+for i in range(len(strs)):
+               data = getData(strs[i],names[i])
+               data.to_csv('F:/work/resource/data/html/'+names[i]+'.csv')
+
